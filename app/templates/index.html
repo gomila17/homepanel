@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>homepanel</h1>
+
+<section id="n8n" hx-get="/partials/n8n-executions" hx-trigger="load">
+  Cargando ejecuciones de n8n...
+</section>
+{% endblock %}

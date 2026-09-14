@@ -1,0 +1,9 @@
+{% if executions %}
+<ul>
+  {% for execution in executions %}
+  <li>{{ execution.workflow_id }} — {{ "✅" if execution.ok else "❌" }} ({{ execution.started_at }})</li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>Sin datos de n8n todav&iacute;a (configura N8N_BASE_URL / N8N_API_KEY en .env).</p>
+{% endif %}
