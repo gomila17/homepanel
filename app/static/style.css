@@ -32,6 +32,10 @@ body {
   margin: 0;
   padding: 18px;
   background: var(--bg);
+  background-image:
+    linear-gradient(rgba(255, 255, 255, .035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, .035) 1px, transparent 1px);
+  background-size: 44px 44px;
   color: var(--text-tertiary);
   font-family: var(--font-mono);
   font-size: 13px;
@@ -221,6 +225,65 @@ a:hover {
   font-size: 10px;
   color: var(--text-muted);
   margin-left: 8px;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 12px;
+  border: 1px solid var(--border);
+  background: linear-gradient(180deg, var(--panel-grad-1), var(--panel-grad-2));
+  padding: 0 14px;
+}
+
+.search-label {
+  font-size: 10px;
+  letter-spacing: 0.26em;
+  color: var(--accent-strong);
+  padding: 13px 0;
+}
+
+.search-input {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  padding: 13px 0;
+}
+
+.search-input::placeholder {
+  color: var(--text-dim);
+}
+
+.search-hint {
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  color: var(--text-muted);
+}
+
+.search-caret {
+  width: 8px;
+  height: 15px;
+  background: var(--accent);
+  animation: pulseDot 1.1s steps(1, end) infinite;
+  flex: none;
+}
+
+.app-footer {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--text-dim);
+  padding: 12px 2px 0;
 }
 
 .console-grid {

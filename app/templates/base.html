@@ -52,6 +52,18 @@
   </header>
   {% block content %}{% endblock %}
 
+  <div class="search-bar">
+    <span class="search-label">SEARCH //</span>
+    <input type="text" id="search-input" class="search-input" placeholder="Buscar en Google" autocomplete="off" />
+    <span class="search-hint">ENTER</span>
+    <span class="search-caret"></span>
+  </div>
+
+  <footer class="app-footer">
+    <span>HOMEPANEL &middot; LOCAL</span>
+    <span>BUILD v{{ app_version }}</span>
+  </footer>
+
   <script>
     const DAYS = ["DOM", "LUN", "MAR", "MIE", "JUE", "VIE", "SAB"];
     const MONTHS = ["ENE", "FEB", "MAR", "ABR", "MAY", "JUN", "JUL", "AGO", "SEP", "OCT", "NOV", "DIC"];
@@ -70,6 +82,13 @@
 
     tickClock();
     setInterval(tickClock, 1000);
+
+    document.getElementById("search-input").addEventListener("keydown", e => {
+      if (e.key !== "Enter") return;
+      const q = e.target.value.trim();
+      if (!q) return;
+      window.open("https://www.google.com/search?q=" + encodeURIComponent(q), "_blank");
+    });
   </script>
 </body>
 </html>
