@@ -300,6 +300,15 @@ a:hover {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 12px;
+  align-items: start;
+}
+
+.console-grid + .console-grid {
+  margin-top: 12px;
+}
+
+.console-grid-top {
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
 }
 
 .panel {

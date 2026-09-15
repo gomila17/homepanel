@@ -1,50 +1,54 @@
 {% extends "base.html" %}
 
 {% block content %}
-<main class="console-grid">
-  <section class="panel">
-    <div class="panel-header">
-      <span class="label">SYSTEM TELEMETRY</span>
-    </div>
-    <div id="system-telemetry" hx-get="/partials/system-telemetry" hx-trigger="load, every 30s">
-      <p class="muted">Cargando telemetr&iacute;a del host...</p>
-    </div>
-  </section>
+<main>
+  <div class="console-grid console-grid-top">
+    <section class="panel">
+      <div class="panel-header">
+        <span class="label">SYSTEM TELEMETRY</span>
+      </div>
+      <div id="system-telemetry" hx-get="/partials/system-telemetry" hx-trigger="load, every 30s">
+        <p class="muted">Cargando telemetr&iacute;a del host...</p>
+      </div>
+    </section>
 
-  <section class="panel">
-    <div class="panel-header">
-      <span class="label">NETWORK / SECURITY</span>
-    </div>
-    <div id="network-security" hx-get="/partials/network-security" hx-trigger="load, every 30s">
-      <p class="muted">Cargando estado de red...</p>
-    </div>
-  </section>
+    <section class="panel">
+      <div class="panel-header">
+        <span class="label">NETWORK / SECURITY</span>
+      </div>
+      <div id="network-security" hx-get="/partials/network-security" hx-trigger="load, every 30s">
+        <p class="muted">Cargando estado de red...</p>
+      </div>
+    </section>
 
-  <section class="panel">
-    <div class="panel-header">
-      <span class="label">INFRASTRUCTURE</span>
-    </div>
-    <div id="infrastructure" hx-get="/partials/infrastructure" hx-trigger="load, every 30s">
-      <p class="muted">Cargando infraestructura...</p>
-    </div>
-  </section>
+    <section class="panel">
+      <div class="panel-header">
+        <span class="label">INFRASTRUCTURE</span>
+      </div>
+      <div id="infrastructure" hx-get="/partials/infrastructure" hx-trigger="load, every 30s">
+        <p class="muted">Cargando infraestructura...</p>
+      </div>
+    </section>
+  </div>
 
-  <section class="panel">
-    <div class="panel-header">
-      <span class="label">N8N WORKFLOW EXECUTIONS</span>
-    </div>
-    <div id="n8n" hx-get="/partials/n8n-executions" hx-trigger="load, every 30s">
-      <p class="muted">Cargando ejecuciones de n8n...</p>
-    </div>
-  </section>
+  <div class="console-grid console-grid-bottom">
+    <section class="panel">
+      <div class="panel-header">
+        <span class="label">N8N WORKFLOW EXECUTIONS</span>
+      </div>
+      <div id="n8n" hx-get="/partials/n8n-executions" hx-trigger="load, every 30s">
+        <p class="muted">Cargando ejecuciones de n8n...</p>
+      </div>
+    </section>
 
-  <section class="panel">
-    <div class="panel-header">
-      <span class="label">VIKUNJA</span>
-    </div>
-    <div id="vikunja" hx-get="/partials/vikunja" hx-trigger="load, every 30s">
-      <p class="muted">Cargando tareas de Vikunja...</p>
-    </div>
-  </section>
+    <section class="panel">
+      <div class="panel-header">
+        <span class="label">VIKUNJA</span>
+      </div>
+      <div id="vikunja" hx-get="/partials/vikunja" hx-trigger="load, every 30s">
+        <p class="muted">Cargando tareas de Vikunja...</p>
+      </div>
+    </section>
+  </div>
 </main>
 {% endblock %}
