@@ -1,0 +1,91 @@
+<div class="ns-row">
+  <div class="ns-row-header">
+    <span class="ns-title">CLOUDFLARE TUNNEL</span>
+    {% if tunnel %}
+    <span class="status {{ 'ok' if tunnel.healthy else 'error' }}">
+      <span class="dot"></span>{{ tunnel.status }}
+    </span>
+    {% else %}
+    <span class="muted-inline">SIN DATOS</span>
+    {% endif %}
+  </div>
+  {% if tunnel %}
+  <div class="ns-stats">
+    <div class="ns-stat">
+      <div class="header-label">CONEXIONES</div>
+      <div class="ns-stat-value">{{ tunnel.connections }}</div>
+    </div>
+    <div class="ns-stat">
+      <div class="header-label">RUTAS</div>
+      <div class="ns-stat-value">{{ tunnel.routes }}</div>
+    </div>
+  </div>
+  {% endif %}
+</div>
+
+<div class="ns-row">
+  <div class="ns-row-header">
+    <span class="ns-title">NGINX PROXY MANAGER</span>
+    {% if npm %}
+    <span class="status ok"><span class="dot"></span>ONLINE</span>
+    {% else %}
+    <span class="muted-inline">SIN DATOS</span>
+    {% endif %}
+  </div>
+  {% if npm %}
+  <div class="ns-stats">
+    <div class="ns-stat">
+      <div class="header-label">PROXY HOSTS</div>
+      <div class="ns-stat-value">{{ npm.hosts_online }}/{{ npm.hosts_total }}</div>
+    </div>
+    <div class="ns-stat">
+      <div class="header-label">CERTIFICADOS SSL</div>
+      <div class="ns-stat-value">{{ npm.certs_total }}</div>
+    </div>
+    <div class="ns-stat">
+      <div class="header-label">PR&Oacute;X. CADUCIDAD</div>
+      <div class="ns-stat-value warn">{% if npm.next_expiry_days is not none %}{{ npm.next_expiry_days }} <span class="stat-unit-small">D</span>{% else %}&mdash;{% endif %}</div>
+    </div>
+  </div>
+  {% endif %}
+</div>
+
+<div class="ns-row">
+  <div class="ns-row-header">
+    <span class="ns-title">ADGUARD DNS</span>
+    {% if dns %}
+    <span class="status ok"><span class="dot"></span>ACTIVE</span>
+    {% else %}
+    <span class="muted-inline">SIN DATOS</span>
+    {% endif %}
+  </div>
+  {% if dns %}
+  <div class="ns-stats four">
+    <div class="ns-stat">
+      <div class="header-label">CONSULTAS</div>
+      <div class="ns-stat-value">{{ "{:,}".format(dns.requests) }}</div>
+    </div>
+    <div class="ns-stat">
+      <div class="header-label">BLOQUEADAS</div>
+      <div class="ns-stat-value warn">{{ "{:,}".format(dns.blocked) }}</div>
+    </div>
+    <div class="ns-stat">
+      <div class="header-label">% BLOQUEO</div>
+      <div class="ns-stat-value">{{ dns.block_rate }}%</div>
+    </div>
+    <div class="ns-stat">
+      <div class="header-label">LATENCIA</div>
+      <div class="ns-stat-value">{{ dns.avg_latency_ms }} <span class="stat-unit-small">ms</span></div>
+    </div>
+  </div>
+  <div class="meter"><div class="meter-fill warn" style="width: {{ dns.block_rate }}%"></div></div>
+  {% if dns.hourly_bars %}
+  <div class="dns-bars">
+    {% for bar in dns.hourly_bars %}
+    <div class="dns-bar-wrap" title="{{ bar.label }}"><div class="dns-bar" style="height: {{ bar.height_pct }}%"></div></div>
+    {% endfor %}
+  </div>
+  <div class="dns-bars-caption"><span>CONSULTAS DNS &middot; 24H</span><span>AHORA</span></div>
+  {% endif %}
+  {% endif %}
+</div>

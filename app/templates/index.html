@@ -13,6 +13,15 @@
 
   <section class="panel">
     <div class="panel-header">
+      <span class="label">SYSTEM TELEMETRY</span>
+    </div>
+    <div id="system-telemetry" hx-get="/partials/system-telemetry" hx-trigger="load, every 30s">
+      <p class="muted">Cargando telemetr&iacute;a del host...</p>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-header">
       <span class="label">PROXMOX</span>
     </div>
     <div id="proxmox" hx-get="/partials/proxmox" hx-trigger="load, every 30s">
@@ -31,28 +40,10 @@
 
   <section class="panel">
     <div class="panel-header">
-      <span class="label">ADGUARD DNS</span>
+      <span class="label">NETWORK / SECURITY</span>
     </div>
-    <div id="adguard" hx-get="/partials/adguard" hx-trigger="load, every 30s">
-      <p class="muted">Cargando estad&iacute;sticas de AdGuard...</p>
-    </div>
-  </section>
-
-  <section class="panel">
-    <div class="panel-header">
-      <span class="label">CLOUDFLARE TUNNEL</span>
-    </div>
-    <div id="cloudflare" hx-get="/partials/cloudflare" hx-trigger="load, every 30s">
-      <p class="muted">Cargando estado del t&uacute;nel...</p>
-    </div>
-  </section>
-
-  <section class="panel">
-    <div class="panel-header">
-      <span class="label">NGINX PROXY MANAGER</span>
-    </div>
-    <div id="npm" hx-get="/partials/npm" hx-trigger="load, every 30s">
-      <p class="muted">Cargando proxy hosts...</p>
+    <div id="network-security" hx-get="/partials/network-security" hx-trigger="load, every 30s">
+      <p class="muted">Cargando estado de red...</p>
     </div>
   </section>
 </main>

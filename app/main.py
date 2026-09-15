@@ -1,3 +1,5 @@
+import asyncio
+
 from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -59,24 +61,24 @@ async def vikunja_tasks(request: Request):
     return templates.TemplateResponse(request, "partials/vikunja_tasks.html", {"tasks": tasks})
 
 
-@app.get("/partials/adguard")
-async def adguard_stats(request: Request):
-    stats = await adguard.get_stats()
-    return templates.TemplateResponse(request, "partials/adguard_stats.html", {"stats": stats})
-
-
-@app.get("/partials/cloudflare")
-async def cloudflare_status(request: Request):
-    tunnel = await cloudflare.get_tunnel_status()
+@app.get("/partials/system-telemetry")
+async def system_telemetry(request: Request):
+    telemetry = await proxmox.get_telemetry()
     return templates.TemplateResponse(
-        request, "partials/cloudflare_status.html", {"tunnel": tunnel}
+        request, "partials/system_telemetry.html", {"telemetry": telemetry}
     )
 
 
-@app.get("/partials/npm")
-async def npm_hosts(request: Request):
-    hosts = await npm.get_proxy_hosts()
-    return templates.TemplateResponse(request, "partials/npm_hosts.html", {"hosts": hosts})
+@app.get("/partials/network-security")
+async def network_security(request: Request):
+    tunnel, npm_summary, dns_stats = await asyncio.gather(
+        cloudflare.get_tunnel_status(), npm.get_summary(), adguard.get_stats()
+    )
+    return templates.TemplateResponse(
+        request,
+        "partials/network_security.html",
+        {"tunnel": tunnel, "npm": npm_summary, "dns": dns_stats},
+    )
 
 
 @app.get("/partials/weather")

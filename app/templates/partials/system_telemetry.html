@@ -1,0 +1,58 @@
+{% if telemetry %}
+<div class="stat-grid">
+  <div class="stat-tile">
+    <div class="header-label">CPU</div>
+    <div class="stat-big">{{ telemetry.cpu_pct }}<span class="stat-unit">%</span></div>
+    <div class="meter"><div class="meter-fill" style="width: {{ telemetry.cpu_pct }}%"></div></div>
+  </div>
+  <div class="stat-tile">
+    <div class="header-label">RAM</div>
+    <div class="stat-big">{{ telemetry.ram_pct }}<span class="stat-unit">%</span></div>
+    <div class="meter"><div class="meter-fill" style="width: {{ telemetry.ram_pct }}%"></div></div>
+  </div>
+  <div class="stat-tile">
+    <div class="header-label">STORAGE</div>
+    <div class="stat-big warn">{{ telemetry.storage_pct }}<span class="stat-unit">%</span></div>
+    <div class="meter"><div class="meter-fill warn" style="width: {{ telemetry.storage_pct }}%"></div></div>
+  </div>
+</div>
+
+<div class="chart-block">
+  <div class="chart-header">
+    <span>CPU LOAD &mdash; &Uacute;LTIMOS 60 MIN</span>
+    <span>PICO {{ telemetry.peak }}% &middot; MEDIA {{ telemetry.avg }}%</span>
+  </div>
+  <div class="chart-body">
+    <div class="chart-axis">
+      <span>100</span><span>75</span><span>50</span><span>25</span><span>0</span>
+    </div>
+    <div class="chart-plot">
+      <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+        <polygon points="{{ telemetry.cpu_area }}" class="chart-area"></polygon>
+        <polyline points="{{ telemetry.cpu_points }}" class="chart-line-cpu"></polyline>
+        <polyline points="{{ telemetry.mem_points }}" class="chart-line-mem"></polyline>
+      </svg>
+    </div>
+  </div>
+  <div class="chart-xaxis">
+    <span>-60M</span><span>-45M</span><span>-30M</span><span>-15M</span><span>NOW</span>
+  </div>
+</div>
+
+<div class="stat-grid bottom">
+  <div class="stat-tile small">
+    <div class="header-label">LOAD AVG</div>
+    <div class="stat-mid">{{ telemetry.load_avg }}</div>
+  </div>
+  <div class="stat-tile small">
+    <div class="header-label">NET RX</div>
+    <div class="stat-mid">{{ telemetry.net_rx_kbs }} <span class="stat-unit-small">KB/s</span></div>
+  </div>
+  <div class="stat-tile small">
+    <div class="header-label">NET TX</div>
+    <div class="stat-mid">{{ telemetry.net_tx_kbs }} <span class="stat-unit-small">KB/s</span></div>
+  </div>
+</div>
+{% else %}
+<p class="muted">Sin datos de Proxmox todav&iacute;a (configura PROXMOX_BASE_URL / PROXMOX_TOKEN_ID / PROXMOX_TOKEN_SECRET en .env).</p>
+{% endif %}
