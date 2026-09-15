@@ -1,0 +1,22 @@
+{% if nodes %}
+{% for node in nodes %}
+<div class="row">
+  <span>{{ node.name }}</span>
+  <span class="status {{ 'ok' if node.online else 'error' }}">
+    <span class="dot"></span>{{ "ONLINE" if node.online else "OFFLINE" }}
+  </span>
+  <span class="muted" style="padding: 0">CPU {{ node.cpu_pct }}% · RAM {{ node.mem_pct }}%</span>
+</div>
+{% endfor %}
+{% for guest in guests %}
+<div class="row">
+  <span>{{ guest.kind }} {{ guest.vmid }} — {{ guest.name }}</span>
+  <span class="status {{ 'ok' if guest.running else 'error' }}">
+    <span class="dot"></span>{{ "RUNNING" if guest.running else "STOPPED" }}
+  </span>
+  <span class="muted" style="padding: 0">RAM {{ guest.mem_pct }}%</span>
+</div>
+{% endfor %}
+{% else %}
+<p class="muted">Sin datos de Proxmox todav&iacute;a (configura PROXMOX_BASE_URL / PROXMOX_TOKEN_ID / PROXMOX_TOKEN_SECRET en .env).</p>
+{% endif %}

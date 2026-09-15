@@ -1,9 +1,32 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>homepanel</h1>
+<main class="console-grid">
+  <section class="panel">
+    <div class="panel-header">
+      <span class="label">N8N WORKFLOW EXECUTIONS</span>
+    </div>
+    <div id="n8n" hx-get="/partials/n8n-executions" hx-trigger="load, every 30s">
+      <p class="muted">Cargando ejecuciones de n8n...</p>
+    </div>
+  </section>
 
-<section id="n8n" hx-get="/partials/n8n-executions" hx-trigger="load">
-  Cargando ejecuciones de n8n...
-</section>
+  <section class="panel">
+    <div class="panel-header">
+      <span class="label">PROXMOX</span>
+    </div>
+    <div id="proxmox" hx-get="/partials/proxmox" hx-trigger="load, every 30s">
+      <p class="muted">Cargando estado de Proxmox...</p>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-header">
+      <span class="label">VIKUNJA</span>
+    </div>
+    <div id="vikunja" hx-get="/partials/vikunja" hx-trigger="load, every 30s">
+      <p class="muted">Cargando tareas de Vikunja...</p>
+    </div>
+  </section>
+</main>
 {% endblock %}

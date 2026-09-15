@@ -1,9 +1,13 @@
 {% if executions %}
-<ul>
-  {% for execution in executions %}
-  <li>{{ execution.workflow_id }} — {{ "✅" if execution.ok else "❌" }} ({{ execution.started_at }})</li>
-  {% endfor %}
-</ul>
+{% for execution in executions %}
+<div class="row">
+  <span>{{ execution.workflow_id }}</span>
+  <span class="status {{ 'ok' if execution.ok else 'error' }}">
+    <span class="dot"></span>{{ "OK" if execution.ok else "FAILED" }}
+  </span>
+  <span class="muted" style="padding: 0">{{ execution.started_at }}</span>
+</div>
+{% endfor %}
 {% else %}
-<p>Sin datos de n8n todav&iacute;a (configura N8N_BASE_URL / N8N_API_KEY en .env).</p>
+<p class="muted">Sin datos de n8n todav&iacute;a (configura N8N_BASE_URL / N8N_API_KEY en .env).</p>
 {% endif %}

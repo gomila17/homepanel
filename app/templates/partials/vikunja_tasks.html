@@ -1,0 +1,13 @@
+{% if tasks %}
+{% for task in tasks %}
+<div class="row">
+  <span>{{ task.title }}</span>
+  <span class="muted" style="padding: 0">{{ task.project }}</span>
+  <span class="{{ 'status error' if task.overdue else 'muted' }}" style="padding: 0">
+    {% if task.overdue %}<span class="dot"></span>{% endif %}{{ task.due_label }}
+  </span>
+</div>
+{% endfor %}
+{% else %}
+<p class="muted">Sin datos de Vikunja todav&iacute;a (configura VIKUNJA_BASE_URL / VIKUNJA_API_TOKEN en .env).</p>
+{% endif %}
