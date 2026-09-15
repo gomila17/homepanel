@@ -2,7 +2,7 @@ from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-from app import config
+from app import __version__, config
 from app.integrations import adguard, cloudflare, n8n, npm, proxmox, vikunja, weather
 
 app = FastAPI(title="homepanel")
@@ -21,7 +21,7 @@ INTEGRATIONS_CONFIGURED = [
 
 @app.get("/healthz")
 async def healthz():
-    return {"status": "ok"}
+    return {"status": "ok", "version": __version__}
 
 
 @app.get("/")
@@ -34,6 +34,7 @@ async def index(request: Request):
             "services_configured": sum(INTEGRATIONS_CONFIGURED),
             "services_total": len(INTEGRATIONS_CONFIGURED),
             "location_label": weather.location_label(),
+            "app_version": __version__,
         },
     )
 
