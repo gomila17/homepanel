@@ -17,6 +17,9 @@
   --link: #a9acb2;
   --link-hover: #d6d8db;
 
+  --text-value: #d7d9dc;
+  --warn-bright: #e6c06a;
+
   --ok: #46d08b;
   --warn: #e6a93a;
   --error: #e0503c;
@@ -193,7 +196,7 @@ a:hover {
 
 .header-stat .stat-value {
   font-size: 12px;
-  color: var(--text-secondary);
+  color: var(--text-value);
   margin-top: 4px;
 }
 
@@ -447,7 +450,7 @@ a:hover {
 }
 
 .stat-big.warn {
-  color: var(--warn);
+  color: var(--warn-bright);
 }
 
 .stat-unit {
@@ -462,7 +465,7 @@ a:hover {
 
 .stat-mid {
   font-size: 14px;
-  color: var(--text-secondary);
+  color: var(--text-value);
   margin-top: 3px;
   font-variant-numeric: tabular-nums;
 }
@@ -595,9 +598,13 @@ a:hover {
 
 .ns-stat-value {
   font-size: 15px;
-  color: var(--text-secondary);
+  color: var(--text-value);
   margin-top: 3px;
   font-variant-numeric: tabular-nums;
+}
+
+.ns-stat-value.warn {
+  color: var(--warn);
 }
 
 .dns-bars {
