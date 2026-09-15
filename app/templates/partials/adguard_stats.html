@@ -1,0 +1,20 @@
+{% if stats %}
+<div class="row">
+  <span>Consultas (24h)</span>
+  <span>{{ stats.requests }}</span>
+</div>
+<div class="row">
+  <span>Bloqueadas</span>
+  <span>{{ stats.blocked }}</span>
+</div>
+<div class="row">
+  <span>% Bloqueo</span>
+  <span>{{ stats.block_rate }}%</span>
+</div>
+<div class="row">
+  <span>Latencia media</span>
+  <span>{{ stats.avg_latency_ms }} ms</span>
+</div>
+{% else %}
+<p class="muted">Sin datos de AdGuard todav&iacute;a (configura ADGUARD_BASE_URL / ADGUARD_USERNAME / ADGUARD_PASSWORD en .env).</p>
+{% endif %}

@@ -28,5 +28,14 @@
       <p class="muted">Cargando tareas de Vikunja...</p>
     </div>
   </section>
+
+  <section class="panel">
+    <div class="panel-header">
+      <span class="label">ADGUARD DNS</span>
+    </div>
+    <div id="adguard" hx-get="/partials/adguard" hx-trigger="load, every 30s">
+      <p class="muted">Cargando estad&iacute;sticas de AdGuard...</p>
+    </div>
+  </section>
 </main>
 {% endblock %}
