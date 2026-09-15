@@ -49,12 +49,6 @@ async def n8n_executions(request: Request):
     )
 
 
-@app.get("/partials/proxmox")
-async def proxmox_status(request: Request):
-    status = await proxmox.get_status()
-    return templates.TemplateResponse(request, "partials/proxmox_status.html", status)
-
-
 @app.get("/partials/vikunja")
 async def vikunja_tasks(request: Request):
     tasks = await vikunja.get_open_tasks()
@@ -79,6 +73,87 @@ async def network_security(request: Request):
         "partials/network_security.html",
         {"tunnel": tunnel, "npm": npm_summary, "dns": dns_stats},
     )
+
+
+@app.get("/partials/infrastructure")
+async def infrastructure(request: Request):
+    executions, proxmox_status, tasks, dns_stats, tunnel, npm_summary = await asyncio.gather(
+        n8n.get_recent_executions(),
+        proxmox.get_status(),
+        vikunja.get_open_tasks(),
+        adguard.get_stats(),
+        cloudflare.get_tunnel_status(),
+        npm.get_summary(),
+    )
+
+    nodes = proxmox_status.get("nodes", [])
+    guests = proxmox_status.get("guests", [])
+    tunnel_url = (
+        f"https://one.dash.cloudflare.com/{config.CLOUDFLARE_ACCOUNT_ID}/networks/tunnels"
+        if config.CLOUDFLARE_ACCOUNT_ID
+        else ""
+    )
+
+    services = [
+        _infra_service(
+            "N8N",
+            config.N8N_BASE_URL,
+            configured=bool(config.N8N_BASE_URL and config.N8N_API_KEY),
+            reachable=bool(executions),
+            meta=f"{len(executions)} EJECUCIONES" if executions else None,
+        ),
+        _infra_service(
+            "PROXMOX VE",
+            config.PROXMOX_BASE_URL,
+            configured=proxmox._configured(),
+            reachable=any(n["online"] for n in nodes),
+            meta=f"{len(guests)} GUESTS" if nodes else None,
+        ),
+        _infra_service(
+            "VIKUNJA",
+            config.VIKUNJA_BASE_URL,
+            configured=vikunja._configured(),
+            reachable=bool(tasks),
+            meta=f"{len(tasks)} TAREAS" if tasks else None,
+        ),
+        _infra_service(
+            "ADGUARD HOME",
+            config.ADGUARD_BASE_URL,
+            configured=adguard._configured(),
+            reachable=bool(dns_stats),
+            meta=f"{dns_stats['avg_latency_ms']} MS" if dns_stats else None,
+        ),
+        _infra_service(
+            "CLOUDFLARE TUNNEL",
+            tunnel_url,
+            configured=cloudflare._configured(),
+            reachable=bool(tunnel),
+            meta=f"{tunnel['routes']} ROUTES" if tunnel else None,
+        ),
+        _infra_service(
+            "NGINX PROXY MANAGER",
+            config.NPM_BASE_URL,
+            configured=npm._configured(),
+            reachable=bool(npm_summary),
+            meta=f"{npm_summary['hosts_total']} HOSTS" if npm_summary else None,
+        ),
+    ]
+
+    return templates.TemplateResponse(
+        request,
+        "partials/infrastructure.html",
+        {"services": services, "guests": guests},
+    )
+
+
+def _infra_service(name: str, url: str, *, configured: bool, reachable: bool, meta: str | None) -> dict:
+    if not configured:
+        state, css = "SIN CONFIGURAR", "muted"
+    elif reachable:
+        state, css = "ONLINE", "ok"
+    else:
+        state, css = "SIN RESPUESTA", "error"
+    return {"name": name, "url": url or "#", "state": state, "css": css, "meta": meta or "—"}
 
 
 @app.get("/partials/weather")

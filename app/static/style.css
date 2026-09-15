@@ -326,6 +326,15 @@ a:hover {
   color: var(--text-muted);
 }
 
+.panel-header.divider-top {
+  border-top: 1px solid var(--border);
+}
+
+.scroll-list {
+  max-height: 220px;
+  overflow-y: auto;
+}
+
 .row {
   display: flex;
   align-items: center;
@@ -603,4 +612,116 @@ a:hover {
   font-size: 9px;
   color: var(--text-dim);
   margin-top: 5px;
+}
+
+/* Infrastructure / node status */
+
+.infra-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border-soft);
+  color: var(--text-secondary);
+}
+
+.infra-row:hover {
+  background: var(--hover-bg);
+}
+
+.infra-row-main {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  min-width: 0;
+}
+
+.infra-row-text {
+  min-width: 0;
+}
+
+.dot-lead {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex: none;
+  margin-top: 4px;
+  background: var(--text-dim);
+}
+
+.dot-lead.ok {
+  background: var(--ok);
+}
+
+.dot-lead.error {
+  background: var(--error);
+}
+
+.infra-name {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--text-secondary);
+}
+
+.infra-meta {
+  display: block;
+  font-size: 9px;
+  color: var(--text-muted);
+  letter-spacing: 0.14em;
+  margin-top: 3px;
+  font-variant-numeric: tabular-nums;
+}
+
+.infra-state {
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  flex: none;
+  white-space: nowrap;
+}
+
+.infra-state.ok {
+  color: var(--ok);
+}
+
+.infra-state.error {
+  color: var(--error);
+}
+
+.infra-state.muted {
+  color: var(--text-dim);
+}
+
+.node-row {
+  display: grid;
+  grid-template-columns: 60px 1fr auto;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.node-id {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.node-name {
+  font-size: 11px;
+  color: var(--text-secondary);
+  letter-spacing: 0.08em;
+}
+
+.node-meta {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  justify-content: flex-end;
+}
+
+.node-mem {
+  font-size: 9px;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
 }

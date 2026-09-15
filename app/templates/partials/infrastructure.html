@@ -1,0 +1,37 @@
+<div class="scroll-list">
+  {% for s in services %}
+  <a href="{{ s.url }}" target="_blank" rel="noopener" class="infra-row">
+    <span class="infra-row-main">
+      <span class="dot-lead {{ s.css }}"></span>
+      <span class="infra-row-text">
+        <span class="infra-name">{{ s.name }}</span>
+        <span class="infra-meta">{{ s.meta }}</span>
+      </span>
+    </span>
+    <span class="infra-state {{ s.css }}">{{ s.state }}</span>
+  </a>
+  {% endfor %}
+</div>
+
+<div class="panel-header divider-top">
+  <span class="label">NODE STATUS</span>
+  <span class="meta">PVE GUESTS</span>
+</div>
+<div class="scroll-list">
+  {% if guests %}
+  {% for g in guests %}
+  <div class="node-row">
+    <span class="node-id">{{ g.kind }} {{ g.vmid }}</span>
+    <span class="node-name">{{ g.name }}</span>
+    <span class="node-meta">
+      <span class="node-mem">RAM {{ g.mem_pct }}%</span>
+      <span class="status {{ 'ok' if g.running else 'error' }}">
+        <span class="dot"></span>{{ "RUNNING" if g.running else "STOPPED" }}
+      </span>
+    </span>
+  </div>
+  {% endfor %}
+  {% else %}
+  <p class="muted">Sin datos de Proxmox todav&iacute;a (configura PROXMOX_BASE_URL / PROXMOX_TOKEN_ID / PROXMOX_TOKEN_SECRET en .env).</p>
+  {% endif %}
+</div>
