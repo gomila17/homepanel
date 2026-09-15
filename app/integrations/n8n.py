@@ -1,6 +1,39 @@
+from datetime import datetime, timezone
+
 import httpx
 
 from app import config
+
+
+def _parse_ts(value: str | None) -> datetime | None:
+    if not value:
+        return None
+    try:
+        return datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError:
+        return None
+
+
+def _when_label(started: datetime | None) -> str:
+    if not started:
+        return "—"
+    delta = datetime.now(timezone.utc) - started
+    minutes = int(delta.total_seconds() // 60)
+    if minutes < 60:
+        return f"-{max(minutes, 0)}M"
+    hours = minutes // 60
+    if hours < 24:
+        return f"-{hours}H"
+    return f"-{hours // 24}D"
+
+
+def _duration_label(started: datetime | None, stopped: datetime | None) -> str:
+    if not started or not stopped:
+        return "—"
+    seconds = (stopped - started).total_seconds()
+    if seconds < 60:
+        return f"{seconds:.1f}s"
+    return f"{seconds / 60:.1f}m"
 
 
 async def get_recent_executions(limit: int = 10) -> list[dict]:
@@ -31,8 +64,12 @@ def _summarize(execution: dict) -> dict:
     has_error = bool(
         execution.get("data", {}).get("resultData", {}).get("error")
     )
+    started = _parse_ts(execution.get("startedAt"))
+    stopped = _parse_ts(execution.get("stoppedAt"))
     return {
         "workflow_id": execution.get("workflowId"),
         "started_at": execution.get("startedAt"),
         "ok": execution.get("finished", False) and not has_error,
+        "when_label": _when_label(started),
+        "duration_label": _duration_label(started, stopped),
     }

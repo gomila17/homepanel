@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 import httpx
 
@@ -63,11 +63,22 @@ async def get_open_tasks(limit: int = 10) -> list[dict]:
     return [_summarize(task, title) for task, title in open_tasks[:limit]]
 
 
+def _urgency(due: datetime | None) -> str:
+    if not due:
+        return "muted"
+    now = datetime.now(timezone.utc)
+    if due < now:
+        return "error"
+    if due - now <= timedelta(days=3):
+        return "warn"
+    return "muted"
+
+
 def _summarize(task: dict, project_title: str) -> dict:
     due = _parse_due(task.get("due_date"))
     return {
         "title": task.get("title"),
         "project": project_title,
         "due_label": due.strftime("%d/%m %H:%M") if due else "sin fecha",
-        "overdue": bool(due and due < datetime.now(timezone.utc)),
+        "urgency": _urgency(due),
     }

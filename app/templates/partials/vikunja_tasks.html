@@ -1,11 +1,14 @@
 {% if tasks %}
 {% for task in tasks %}
-<div class="row">
-  <span>{{ task.title }}</span>
-  <span class="muted" style="padding: 0">{{ task.project }}</span>
-  <span class="{{ 'status error' if task.overdue else 'muted' }}" style="padding: 0">
-    {% if task.overdue %}<span class="dot"></span>{% endif %}{{ task.due_label }}
+<div class="task-row">
+  <span class="task-row-main">
+    <span class="dot-lead {{ task.urgency }}"></span>
+    <span>
+      <span class="task-name">{{ task.title }}</span>
+      <span class="task-project">{{ task.project }}</span>
+    </span>
   </span>
+  <span class="task-due {{ task.urgency }}">{{ task.due_label }}</span>
 </div>
 {% endfor %}
 {% else %}

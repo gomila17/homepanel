@@ -366,19 +366,6 @@ a:hover {
   background: var(--accent);
 }
 
-.row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-  padding: 9px 14px;
-  border-bottom: 1px solid var(--border-soft);
-}
-
-.row:last-child {
-  border-bottom: none;
-}
-
 .status {
   display: flex;
   align-items: center;
@@ -693,6 +680,10 @@ a:hover {
   background: var(--error);
 }
 
+.dot-lead.warn {
+  background: var(--warn);
+}
+
 .infra-name {
   display: block;
   font-size: 11px;
@@ -759,4 +750,106 @@ a:hover {
   font-size: 9px;
   color: var(--text-muted);
   font-variant-numeric: tabular-nums;
+}
+
+/* N8N workflow executions */
+
+.table-header {
+  display: grid;
+  grid-template-columns: 1fr 72px 60px 56px;
+  gap: 8px;
+  padding: 7px 14px;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  color: var(--text-dim);
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.table-header span:last-child {
+  text-align: right;
+}
+
+.exec-row {
+  display: grid;
+  grid-template-columns: 1fr 72px 60px 56px;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.exec-row:last-child {
+  border-bottom: none;
+}
+
+.exec-name {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+}
+
+.exec-when {
+  font-size: 10px;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.exec-dur {
+  font-size: 11px;
+  color: var(--accent);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Vikunja tasks */
+
+.task-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.task-row:last-child {
+  border-bottom: none;
+}
+
+.task-row-main {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  min-width: 0;
+}
+
+.task-name {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+}
+
+.task-project {
+  display: block;
+  font-size: 9px;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  margin-top: 3px;
+}
+
+.task-due {
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  flex: none;
+  white-space: nowrap;
+  color: var(--text-dim);
+}
+
+.task-due.error {
+  color: var(--error);
+}
+
+.task-due.warn {
+  color: var(--warn);
 }
