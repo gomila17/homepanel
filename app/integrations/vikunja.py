@@ -60,25 +60,26 @@ async def get_open_tasks(limit: int = 10) -> list[dict]:
 
     open_tasks.sort(key=lambda pair: _due_sort_key(pair[0]))
 
-    return [_summarize(task, title) for task, title in open_tasks[:limit]]
+    return [_summarize(task, title, base) for task, title in open_tasks[:limit]]
 
 
 def _urgency(due: datetime | None) -> str:
     if not due:
-        return "muted"
+        return "dim"
     now = datetime.now(timezone.utc)
     if due < now:
         return "error"
     if due - now <= timedelta(days=3):
         return "warn"
-    return "muted"
+    return "dim"
 
 
-def _summarize(task: dict, project_title: str) -> dict:
+def _summarize(task: dict, project_title: str, base: str) -> dict:
     due = _parse_due(task.get("due_date"))
     return {
         "title": task.get("title"),
         "project": project_title,
         "due_label": due.strftime("%d/%m %H:%M") if due else "sin fecha",
         "urgency": _urgency(due),
+        "url": f"{base}/tasks/{task['id']}",
     }

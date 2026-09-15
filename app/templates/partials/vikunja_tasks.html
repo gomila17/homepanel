@@ -1,6 +1,6 @@
 {% if tasks %}
 {% for task in tasks %}
-<div class="task-row">
+<a href="{{ task.url }}" target="_blank" rel="noopener" class="task-row">
   <span class="task-row-main">
     <span class="dot-lead {{ task.urgency }}"></span>
     <span>
@@ -9,7 +9,7 @@
     </span>
   </span>
   <span class="task-due {{ task.urgency }}">{{ task.due_label }}</span>
-</div>
+</a>
 {% endfor %}
 {% else %}
 <p class="muted">Sin datos de Vikunja todav&iacute;a (configura VIKUNJA_BASE_URL / VIKUNJA_API_TOKEN en .env).</p>

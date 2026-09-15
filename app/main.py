@@ -148,7 +148,7 @@ async def infrastructure(request: Request):
 
 def _infra_service(name: str, url: str, *, configured: bool, reachable: bool, meta: str | None) -> dict:
     if not configured:
-        state, css = "SIN CONFIGURAR", "muted"
+        state, css = "SIN CONFIGURAR", "dim"
     elif reachable:
         state, css = "ONLINE", "ok"
     else:
