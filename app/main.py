@@ -33,6 +33,7 @@ async def index(request: Request):
             "node_name": "HOMELAB-01",
             "services_configured": sum(INTEGRATIONS_CONFIGURED),
             "services_total": len(INTEGRATIONS_CONFIGURED),
+            "location_label": weather.location_label(),
         },
     )
 
@@ -83,5 +84,5 @@ async def weather_status(request: Request):
     return templates.TemplateResponse(
         request,
         "partials/weather.html",
-        {"weather": current, "location": config.OPENWEATHER_LOCATION.split(",")[0].upper()},
+        {"weather": current, "location": weather.location_label()},
     )

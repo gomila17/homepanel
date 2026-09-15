@@ -7,6 +7,14 @@ def _configured() -> bool:
     return bool(config.OPENWEATHER_API_KEY and config.OPENWEATHER_LOCATION)
 
 
+def location_label() -> str:
+    """Human-readable label derived from OPENWEATHER_LOCATION, e.g. "CITY · CC"."""
+    if not config.OPENWEATHER_LOCATION:
+        return ""
+    parts = [p.strip() for p in config.OPENWEATHER_LOCATION.split(",") if p.strip()]
+    return " · ".join(p.upper() for p in parts)
+
+
 async def get_current() -> dict | None:
     """Fetch current weather conditions for the configured location.
 
@@ -38,7 +46,7 @@ async def get_current() -> dict | None:
 
 def _summarize(data: dict) -> dict:
     return {
-        "location": data.get("name", config.OPENWEATHER_LOCATION.split(",")[0]).upper(),
+        "location": data.get("name", "").upper() or location_label(),
         "temp": round(data.get("main", {}).get("temp", 0)),
         "condition": data.get("weather", [{}])[0].get("description", "").upper(),
     }

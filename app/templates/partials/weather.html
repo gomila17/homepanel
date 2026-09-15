@@ -2,6 +2,6 @@
 <div class="header-label">{{ weather.location }}</div>
 <div class="stat-value">{{ weather.temp }}&deg;C &middot; {{ weather.condition }}</div>
 {% else %}
-<div class="header-label">{{ location }}</div>
+<div class="header-label">{{ location or "CLIMA" }}</div>
 <div class="stat-value">SIN DATOS</div>
 {% endif %}
