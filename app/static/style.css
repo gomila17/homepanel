@@ -194,6 +194,21 @@ a:hover {
   text-align: right;
 }
 
+.header-weather {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 12px 18px;
+  border-left: 1px solid var(--border);
+  text-align: right;
+}
+
+.header-weather .stat-value {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
 .clock-time {
   font-size: 20px;
   color: var(--text-primary);

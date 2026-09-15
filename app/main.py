@@ -3,7 +3,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 from app import config
-from app.integrations import adguard, cloudflare, n8n, npm, proxmox, vikunja
+from app.integrations import adguard, cloudflare, n8n, npm, proxmox, vikunja, weather
 
 app = FastAPI(title="homepanel")
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
@@ -75,3 +75,13 @@ async def cloudflare_status(request: Request):
 async def npm_hosts(request: Request):
     hosts = await npm.get_proxy_hosts()
     return templates.TemplateResponse(request, "partials/npm_hosts.html", {"hosts": hosts})
+
+
+@app.get("/partials/weather")
+async def weather_status(request: Request):
+    current = await weather.get_current()
+    return templates.TemplateResponse(
+        request,
+        "partials/weather.html",
+        {"weather": current, "location": config.OPENWEATHER_LOCATION.split(",")[0].upper()},
+    )

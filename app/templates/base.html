@@ -44,6 +44,11 @@
         <div class="clock-time" id="clock-time">--:--:--<span class="clock-tz" id="clock-tz">UTC</span></div>
       </div>
     </div>
+
+    <div class="header-weather" id="weather" hx-get="/partials/weather" hx-trigger="load, every 600s">
+      <div class="header-label">&mdash;</div>
+      <div class="stat-value">Cargando&hellip;</div>
+    </div>
   </header>
   {% block content %}{% endblock %}
 
