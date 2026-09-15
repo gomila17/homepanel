@@ -46,5 +46,14 @@
       <p class="muted">Cargando estado del t&uacute;nel...</p>
     </div>
   </section>
+
+  <section class="panel">
+    <div class="panel-header">
+      <span class="label">NGINX PROXY MANAGER</span>
+    </div>
+    <div id="npm" hx-get="/partials/npm" hx-trigger="load, every 30s">
+      <p class="muted">Cargando proxy hosts...</p>
+    </div>
+  </section>
 </main>
 {% endblock %}

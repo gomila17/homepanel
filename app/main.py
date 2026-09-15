@@ -2,7 +2,7 @@ from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-from app.integrations import adguard, cloudflare, n8n, proxmox, vikunja
+from app.integrations import adguard, cloudflare, n8n, npm, proxmox, vikunja
 
 app = FastAPI(title="homepanel")
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
@@ -51,3 +51,9 @@ async def cloudflare_status(request: Request):
     return templates.TemplateResponse(
         request, "partials/cloudflare_status.html", {"tunnel": tunnel}
     )
+
+
+@app.get("/partials/npm")
+async def npm_hosts(request: Request):
+    hosts = await npm.get_proxy_hosts()
+    return templates.TemplateResponse(request, "partials/npm_hosts.html", {"hosts": hosts})
