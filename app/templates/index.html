@@ -37,5 +37,14 @@
       <p class="muted">Cargando estad&iacute;sticas de AdGuard...</p>
     </div>
   </section>
+
+  <section class="panel">
+    <div class="panel-header">
+      <span class="label">CLOUDFLARE TUNNEL</span>
+    </div>
+    <div id="cloudflare" hx-get="/partials/cloudflare" hx-trigger="load, every 30s">
+      <p class="muted">Cargando estado del t&uacute;nel...</p>
+    </div>
+  </section>
 </main>
 {% endblock %}
