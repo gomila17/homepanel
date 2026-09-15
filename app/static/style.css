@@ -31,6 +31,9 @@
 body {
   margin: 0;
   padding: 18px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   background: var(--bg);
   background-image:
     linear-gradient(rgba(255, 255, 255, .035) 1px, transparent 1px),
@@ -39,6 +42,10 @@ body {
   color: var(--text-tertiary);
   font-family: var(--font-mono);
   font-size: 13px;
+}
+
+.page-content {
+  flex: 1 1 auto;
 }
 
 a {
