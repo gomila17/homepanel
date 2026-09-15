@@ -2,11 +2,21 @@ from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
+from app import config
 from app.integrations import adguard, cloudflare, n8n, npm, proxmox, vikunja
 
 app = FastAPI(title="homepanel")
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
 templates = Jinja2Templates(directory="app/templates")
+
+INTEGRATIONS_CONFIGURED = [
+    bool(config.N8N_BASE_URL and config.N8N_API_KEY),
+    proxmox._configured(),
+    vikunja._configured(),
+    adguard._configured(),
+    cloudflare._configured(),
+    npm._configured(),
+]
 
 
 @app.get("/healthz")
@@ -16,7 +26,15 @@ async def healthz():
 
 @app.get("/")
 async def index(request: Request):
-    return templates.TemplateResponse(request, "index.html")
+    return templates.TemplateResponse(
+        request,
+        "index.html",
+        {
+            "node_name": "HOMELAB-01",
+            "services_configured": sum(INTEGRATIONS_CONFIGURED),
+            "services_total": len(INTEGRATIONS_CONFIGURED),
+        },
+    )
 
 
 @app.get("/partials/n8n-executions")

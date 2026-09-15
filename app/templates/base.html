@@ -12,8 +12,59 @@
 </head>
 <body>
   <header class="console-header">
-    <h1>HOMELAB <span style="color: var(--text-dim)">//</span> OPERATIONS CONSOLE</h1>
+    <div class="header-brand">
+      <span class="header-status-dot" style="background: var(--ok); box-shadow: 0 0 10px var(--ok)"></span>
+      <div>
+        <div class="brand-title">HOMELAB <span class="sep">//</span> OPERATIONS CONSOLE</div>
+        <div class="brand-subtitle">PRIVATE INFRASTRUCTURE &middot; SABADELL &middot; ES</div>
+      </div>
+    </div>
+
+    <div class="header-status">
+      <span class="header-label">SYSTEM STATUS</span>
+      <span class="status-badge ok">
+        <span class="dot"></span>NOMINAL
+      </span>
+    </div>
+
+    <div class="header-stats">
+      <div class="header-stat">
+        <div class="header-label">NODE</div>
+        <div class="stat-value">{{ node_name }}</div>
+      </div>
+      <div class="header-stat">
+        <div class="header-label">SERVICES</div>
+        <div class="stat-value">{{ services_configured }} / {{ services_total }} CONFIGURED</div>
+      </div>
+    </div>
+
+    <div class="header-clock">
+      <div>
+        <div class="header-label" id="clock-date">&mdash;</div>
+        <div class="clock-time" id="clock-time">--:--:--<span class="clock-tz" id="clock-tz">UTC</span></div>
+      </div>
+    </div>
   </header>
   {% block content %}{% endblock %}
+
+  <script>
+    const DAYS = ["DOM", "LUN", "MAR", "MIE", "JUE", "VIE", "SAB"];
+    const MONTHS = ["ENE", "FEB", "MAR", "ABR", "MAY", "JUN", "JUL", "AGO", "SEP", "OCT", "NOV", "DIC"];
+    const pad = n => String(n).padStart(2, "0");
+
+    function tickClock() {
+      const t = new Date();
+      document.getElementById("clock-time").firstChild.textContent =
+        `${pad(t.getHours())}:${pad(t.getMinutes())}:${pad(t.getSeconds())}`;
+      document.getElementById("clock-date").textContent =
+        `${DAYS[t.getDay()]} ${pad(t.getDate())} ${MONTHS[t.getMonth()]} ${t.getFullYear()}`;
+      const offsetMin = -t.getTimezoneOffset();
+      document.getElementById("clock-tz").textContent =
+        `UTC${offsetMin >= 0 ? "+" : "-"}${Math.abs(offsetMin / 60)}`;
+    }
+
+    tickClock();
+    setInterval(tickClock, 1000);
+  </script>
 </body>
 </html>
