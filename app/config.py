@@ -1,3 +1,4 @@
+import json
 import os
 
 from dotenv import load_dotenv
@@ -11,6 +12,17 @@ def _env(name: str, default: str = "") -> str:
 
 def _env_bool(name: str, default: bool = True) -> bool:
     return _env(name, str(default)).strip().lower() not in ("false", "0", "no")
+
+
+def _env_json_list(name: str) -> list[dict]:
+    raw = _env(name)
+    if not raw:
+        return []
+    try:
+        data = json.loads(raw)
+    except json.JSONDecodeError:
+        return []
+    return data if isinstance(data, list) else []
 
 
 N8N_BASE_URL = _env("N8N_BASE_URL")
@@ -38,3 +50,5 @@ NPM_PASSWORD = _env("NPM_PASSWORD")
 
 OPENWEATHER_API_KEY = _env("OPENWEATHER_API_KEY")
 OPENWEATHER_LOCATION = _env("OPENWEATHER_LOCATION")
+
+APPS = _env_json_list("APPS_JSON")

@@ -5,7 +5,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 from app import __version__, config
-from app.integrations import adguard, cloudflare, n8n, npm, proxmox, vikunja, weather
+from app.integrations import adguard, apps, cloudflare, n8n, npm, proxmox, vikunja, weather
 
 app = FastAPI(title="homepanel")
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
@@ -18,6 +18,7 @@ INTEGRATIONS_CONFIGURED = [
     adguard._configured(),
     cloudflare._configured(),
     npm._configured(),
+    apps._configured(),
 ]
 
 
@@ -53,6 +54,12 @@ async def n8n_executions(request: Request):
 async def vikunja_tasks(request: Request):
     tasks = await vikunja.get_open_tasks()
     return templates.TemplateResponse(request, "partials/vikunja_tasks.html", {"tasks": tasks})
+
+
+@app.get("/partials/applications")
+async def applications(request: Request):
+    app_list = await apps.get_apps()
+    return templates.TemplateResponse(request, "partials/applications.html", {"apps": app_list})
 
 
 @app.get("/partials/system-telemetry")

@@ -49,6 +49,15 @@
         <p class="muted">Cargando tareas de Vikunja...</p>
       </div>
     </section>
+
+    <section class="panel">
+      <div class="panel-header">
+        <span class="label">APPLICATIONS</span>
+      </div>
+      <div id="applications" hx-get="/partials/applications" hx-trigger="load, every 30s">
+        <p class="muted">Cargando aplicaciones...</p>
+      </div>
+    </section>
   </div>
 </main>
 {% endblock %}
