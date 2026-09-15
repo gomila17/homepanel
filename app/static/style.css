@@ -311,6 +311,11 @@ a:hover {
   grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
 }
 
+.console-grid-bottom {
+  grid-template-columns: repeat(auto-fit, minmax(320px, 420px));
+  justify-content: start;
+}
+
 .panel {
   border: 1px solid var(--border);
   background: linear-gradient(180deg, var(--panel-grad-1), var(--panel-grad-2));
