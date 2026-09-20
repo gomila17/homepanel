@@ -59,7 +59,21 @@ async def vikunja_tasks(request: Request):
 @app.get("/partials/applications")
 async def applications(request: Request):
     app_list = await apps.get_apps()
-    return templates.TemplateResponse(request, "partials/applications.html", {"apps": app_list})
+    return templates.TemplateResponse(
+        request,
+        "partials/applications.html",
+        {"apps": app_list, "empty_hint": "APPS_JSON"},
+    )
+
+
+@app.get("/partials/lan-apps")
+async def lan_apps(request: Request):
+    app_list = await apps.get_lan_apps()
+    return templates.TemplateResponse(
+        request,
+        "partials/applications.html",
+        {"apps": app_list, "empty_hint": "LAN_APPS_JSON"},
+    )
 
 
 @app.get("/partials/system-telemetry")

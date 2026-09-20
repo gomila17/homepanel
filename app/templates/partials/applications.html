@@ -15,5 +15,5 @@
   {% endfor %}
 </div>
 {% else %}
-<p class="muted">Sin aplicaciones configuradas (define APPS_JSON en .env).</p>
+<p class="muted">Sin aplicaciones configuradas (define {{ empty_hint }} en .env).</p>
 {% endif %}

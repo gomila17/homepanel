@@ -58,6 +58,15 @@
         <p class="muted">Cargando aplicaciones...</p>
       </div>
     </section>
+
+    <section class="panel">
+      <div class="panel-header">
+        <span class="label">LAN ACCESS</span>
+      </div>
+      <div id="lan-apps" hx-get="/partials/lan-apps" hx-trigger="load, every 30s">
+        <p class="muted">Cargando accesos LAN...</p>
+      </div>
+    </section>
   </div>
 </main>
 {% endblock %}
