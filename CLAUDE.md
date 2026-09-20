@@ -5,7 +5,7 @@ See `README.md` for what this project is, the stack, and local dev setup. This f
 ## Versioning
 
 - App version lives in `app/__init__.py` (`__version__`), semver, exposed via `/healthz` and the footer (`app_version` template context).
-- Currently `0.3.0`. Bump it when a meaningful block of work lands (a new integration, a UI milestone), not on every commit.
+- Currently `0.3.1`. Bump it when a meaningful block of work lands (a new integration, a UI milestone), not on every commit.
 
 ## Commits
 

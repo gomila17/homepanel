@@ -1,5 +1,4 @@
-<div class="scroll-list">
-  {% for s in services %}
+{% for s in services %}
   <a href="{{ s.url }}" target="_blank" rel="noopener" class="infra-row">
     <span class="infra-row-main">
       <span class="dot-lead {{ s.css }}"></span>
@@ -10,15 +9,13 @@
     </span>
     <span class="infra-state {{ s.css }}">{{ s.state }}</span>
   </a>
-  {% endfor %}
-</div>
+{% endfor %}
 
 <div class="panel-header divider-top">
   <span class="label">NODE STATUS</span>
   <span class="meta">PVE GUESTS</span>
 </div>
-<div class="scroll-list">
-  {% if guests %}
+{% if guests %}
   {% for g in guests %}
   <div class="node-row">
     <span class="node-id">{{ g.kind }} {{ g.vmid }}</span>

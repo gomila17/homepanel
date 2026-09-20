@@ -25,6 +25,11 @@
   --error: #e0503c;
 
   --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+  /* fixed panel heights so panels don't resize as htmx content loads;
+     top = tallest loaded top panel (network/security), bottom = shorter lists */
+  --panel-h-top: 420px;
+  --panel-h-bottom: 320px;
 }
 
 * {
@@ -312,13 +317,22 @@ a:hover {
 }
 
 .console-grid-bottom {
-  grid-template-columns: repeat(auto-fit, minmax(320px, 420px));
-  justify-content: start;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 .panel {
+  display: flex;
+  flex-direction: column;
   border: 1px solid var(--border);
   background: linear-gradient(180deg, var(--panel-grad-1), var(--panel-grad-2));
+}
+
+.console-grid-top .panel {
+  height: var(--panel-h-top);
+}
+
+.console-grid-bottom .panel {
+  height: var(--panel-h-bottom);
 }
 
 .panel-header {
@@ -347,27 +361,29 @@ a:hover {
   border-top: 1px solid var(--border);
 }
 
-.scroll-list {
-  max-height: 220px;
+/* htmx target and scroll container in one, so the 30s refresh keeps the scroll position */
+.panel-body {
+  flex: 1 1 auto;
+  min-height: 0;
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: var(--border) transparent;
 }
 
-.scroll-list::-webkit-scrollbar {
+.panel-body::-webkit-scrollbar {
   width: 6px;
 }
 
-.scroll-list::-webkit-scrollbar-track {
+.panel-body::-webkit-scrollbar-track {
   background: transparent;
 }
 
-.scroll-list::-webkit-scrollbar-thumb {
+.panel-body::-webkit-scrollbar-thumb {
   background: var(--border);
   border-radius: 3px;
 }
 
-.scroll-list::-webkit-scrollbar-thumb:hover {
+.panel-body::-webkit-scrollbar-thumb:hover {
   background: var(--accent);
 }
 
