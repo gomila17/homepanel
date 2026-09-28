@@ -29,6 +29,8 @@ Fuera de alcance: Vaultwarden más allá de un simple healthcheck (el cifrado E2
 
 Pensado para un LXC dedicado en Proxmox (no como stack de Portainer en `docker-host`), para que el dashboard no dependa de la misma infraestructura que está monitorizando.
 
+Guía paso a paso y automatización de despliegue: [DEPLOYMENT.md](DEPLOYMENT.md).
+
 ## Desarrollo local
 
 ```bash

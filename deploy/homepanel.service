@@ -1,0 +1,23 @@
+# Runs the app itself. Installed to /etc/systemd/system/homepanel.service
+# on the LXC — see ../DEPLOYMENT.md for the full setup.
+#
+# .env is not loaded here on purpose: the app already reads it itself via
+# python-dotenv (see app/config.py), which avoids systemd's EnvironmentFile
+# parsing rules mangling the JSON-array values (APPS_JSON, LAN_APPS_JSON...).
+
+[Unit]
+Description=homepanel dashboard
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=homepanel
+Group=homepanel
+WorkingDirectory=/opt/homepanel
+ExecStart=/opt/homepanel/.venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 8000
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
