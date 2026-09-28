@@ -53,3 +53,4 @@ OPENWEATHER_LOCATION = _env("OPENWEATHER_LOCATION")
 
 APPS = _env_json_list("APPS_JSON")
 LAN_APPS = _env_json_list("LAN_APPS_JSON")
+EXTERNAL_LINKS = _env_json_list("EXTERNAL_LINKS_JSON")

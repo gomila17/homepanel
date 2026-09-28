@@ -1,4 +1,5 @@
 import asyncio
+from urllib.parse import urlparse
 
 from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
@@ -27,8 +28,17 @@ async def healthz():
     return {"status": "ok", "version": __version__}
 
 
+def _external_link(link: dict) -> dict:
+    return {
+        "name": link.get("name", ""),
+        "url": link.get("url", "#"),
+        "domain": urlparse(link.get("url", "")).netloc,
+    }
+
+
 @app.get("/")
 async def index(request: Request):
+    external_links = [_external_link(link) for link in config.EXTERNAL_LINKS]
     return templates.TemplateResponse(
         request,
         "index.html",
@@ -38,7 +48,9 @@ async def index(request: Request):
             "services_total": len(INTEGRATIONS_CONFIGURED),
             "location_label": weather.location_label(),
             "app_version": __version__,
-            "launcher_apps": [{"name": a["name"], "url": a["url"]} for a in config.APPS],
+            "launcher_apps": [{"name": a["name"], "url": a["url"]} for a in config.APPS]
+            + [{"name": link["name"], "url": link["url"]} for link in external_links],
+            "external_links": external_links,
         },
     )
 
