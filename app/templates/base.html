@@ -51,15 +51,22 @@
     </div>
   </header>
 
-  <div class="page-content">
-    {% block content %}{% endblock %}
-  </div>
-
   <div class="search-bar">
     <span class="search-label">SEARCH //</span>
-    <input type="text" id="search-input" class="search-input" placeholder="Buscar en Google" autocomplete="off" />
-    <span class="search-hint">ENTER</span>
+    <input
+      type="text"
+      id="search-input"
+      class="search-input"
+      placeholder="Nombre de app, o ENTER para buscar en Google"
+      autocomplete="off"
+      autofocus
+    />
+    <span class="search-hint" id="search-hint">LISTO</span>
     <span class="search-caret"></span>
+  </div>
+
+  <div class="page-content">
+    {% block content %}{% endblock %}
   </div>
 
   <footer class="app-footer">
@@ -86,12 +93,50 @@
     tickClock();
     setInterval(tickClock, 1000);
 
-    document.getElementById("search-input").addEventListener("keydown", e => {
+    // Apps configured by domain (APPS_JSON): the search bar doubles as a launcher,
+    // matching the un-implemented behavior from the original mockup.
+    const LAUNCHER_APPS = {{ launcher_apps | tojson }};
+    const searchInput = document.getElementById("search-input");
+    const searchHint = document.getElementById("search-hint");
+
+    function findApp(query) {
+      const q = query.trim().toLowerCase();
+      if (!q) return null;
+      return LAUNCHER_APPS.find(a => a.name.toLowerCase().startsWith(q)) || null;
+    }
+
+    function updateHint() {
+      const q = searchInput.value;
+      const match = findApp(q);
+      if (match) {
+        searchHint.textContent = "ENTER → " + match.name;
+      } else if (q.trim()) {
+        searchHint.textContent = "ENTER → BUSCAR EN GOOGLE";
+      } else {
+        searchHint.textContent = "LISTO";
+      }
+    }
+
+    searchInput.addEventListener("input", updateHint);
+
+    searchInput.addEventListener("keydown", e => {
       if (e.key !== "Enter") return;
-      const q = e.target.value.trim();
+      const q = searchInput.value.trim();
       if (!q) return;
-      window.open("https://www.google.com/search?q=" + encodeURIComponent(q), "_blank");
+      const match = findApp(q);
+      const url = match ? match.url : "https://www.google.com/search?q=" + encodeURIComponent(q);
+      window.open(url, "_blank");
     });
+
+    // Global shortcut to jump back into the search bar without reaching for the mouse,
+    // since this page is meant to be used as a browser homepage.
+    document.addEventListener("keydown", e => {
+      if (e.key !== "/" || document.activeElement === searchInput) return;
+      e.preventDefault();
+      searchInput.focus();
+    });
+
+    searchInput.focus();
   </script>
 </body>
 </html>
