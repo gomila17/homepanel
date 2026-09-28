@@ -38,6 +38,7 @@ async def index(request: Request):
             "services_total": len(INTEGRATIONS_CONFIGURED),
             "location_label": weather.location_label(),
             "app_version": __version__,
+            "launcher_apps": [{"name": a["name"], "url": a["url"]} for a in config.APPS],
         },
     )
 
