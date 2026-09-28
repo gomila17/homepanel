@@ -49,6 +49,29 @@
       <div class="header-label">&mdash;</div>
       <div class="stat-value">Cargando&hellip;</div>
     </div>
+
+    {% if external_links %}
+    <div class="header-quicklinks">
+      <button
+        type="button"
+        id="quicklinks-toggle"
+        class="quicklinks-toggle"
+        aria-label="Accesos rapidos"
+        aria-expanded="false"
+        aria-controls="quicklinks-panel"
+      >
+        <span class="grid-icon"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span>
+      </button>
+      <div class="quicklinks-panel" id="quicklinks-panel" hidden>
+        {% for link in external_links %}
+        <a href="{{ link.url }}" target="_blank" rel="noopener" class="quicklink-card">
+          <img src="https://icons.duckduckgo.com/ip3/{{ link.domain }}.ico" alt="" class="quicklink-icon" loading="lazy" />
+          <span class="quicklink-name">{{ link.name }}</span>
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
   </header>
 
   <div class="search-bar">
@@ -137,6 +160,34 @@
     });
 
     searchInput.focus();
+
+    // Quick-links grid (external services unrelated to the homelab), toggled like
+    // Chrome's own app launcher button.
+    const quicklinksToggle = document.getElementById("quicklinks-toggle");
+    const quicklinksPanel = document.getElementById("quicklinks-panel");
+
+    function closeQuicklinks() {
+      if (quicklinksPanel.hidden) return;
+      quicklinksPanel.hidden = true;
+      quicklinksToggle.setAttribute("aria-expanded", "false");
+    }
+
+    if (quicklinksToggle) {
+      quicklinksToggle.addEventListener("click", e => {
+        e.stopPropagation();
+        const willOpen = quicklinksPanel.hidden;
+        quicklinksPanel.hidden = !willOpen;
+        quicklinksToggle.setAttribute("aria-expanded", String(willOpen));
+      });
+
+      document.addEventListener("click", e => {
+        if (!quicklinksPanel.hidden && !quicklinksPanel.contains(e.target)) closeQuicklinks();
+      });
+
+      document.addEventListener("keydown", e => {
+        if (e.key === "Escape") closeQuicklinks();
+      });
+    }
   </script>
 </body>
 </html>

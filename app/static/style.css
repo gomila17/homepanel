@@ -228,6 +228,89 @@ a:hover {
   margin-top: 4px;
 }
 
+/* Quick links: external services unrelated to the homelab (Gmail, GitHub...),
+   opened from a Chrome-app-launcher-style grid button. */
+
+.header-quicklinks {
+  display: flex;
+  align-items: center;
+  padding: 0 6px;
+  border-left: 1px solid var(--border);
+  position: relative;
+}
+
+.quicklinks-toggle {
+  background: transparent;
+  border: 1px solid transparent;
+  padding: 9px;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.quicklinks-toggle:hover,
+.quicklinks-toggle[aria-expanded="true"] {
+  color: var(--accent-strong);
+  border-color: var(--border);
+}
+
+.grid-icon {
+  display: grid;
+  grid-template-columns: repeat(3, 4px);
+  grid-template-rows: repeat(3, 4px);
+  gap: 3px;
+}
+
+.grid-icon span {
+  width: 4px;
+  height: 4px;
+  background: currentColor;
+}
+
+.quicklinks-panel[hidden] {
+  display: none;
+}
+
+.quicklinks-panel {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 20;
+  display: grid;
+  grid-template-columns: repeat(3, 88px);
+  gap: 1px;
+  background: var(--border-soft);
+  border: 1px solid var(--border);
+  padding: 1px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, .45);
+}
+
+.quicklink-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 8px;
+  background: var(--panel-grad-1);
+  color: var(--text-secondary);
+  text-decoration: none;
+}
+
+.quicklink-card:hover {
+  background: var(--hover-bg);
+  color: var(--text-primary);
+}
+
+.quicklink-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.quicklink-name {
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-align: center;
+}
+
 .clock-time {
   font-size: 20px;
   color: var(--text-primary);
