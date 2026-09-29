@@ -86,3 +86,11 @@ página específica.
   llamar a `systemctl restart`. Es una LXC de un único propósito, así que
   el compromiso está documentado en `deploy/homepanel-update.service` en
   vez de complicar el setup con una regla de `sudoers`.
+- **`fatal: detected dubious ownership in repository`** en
+  `journalctl -u homepanel-update`: root ejecutando `git` sobre un
+  directorio que no es suyo (`/opt/homepanel` es de `homepanel:homepanel`)
+  dispara la protección `safe.directory` de git. `homepanel-update.sh` ya
+  lo evita pasando `-c safe.directory=/opt/homepanel` en cada invocación,
+  pero si aparece en una LXC con una versión anterior del script, arréglalo
+  a mano una vez con `git config --global --add safe.directory /opt/homepanel`
+  (como root) y el timer se recupera solo en el siguiente ciclo.

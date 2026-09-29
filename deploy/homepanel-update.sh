@@ -7,6 +7,12 @@ set -euo pipefail
 
 cd /opt/homepanel
 
+# /opt/homepanel is owned by "homepanel", not root, so git's ownership check
+# (safe.directory, CVE-2022-24765) refuses to touch it otherwise. Scoped to
+# this invocation rather than `git config --global`, so it doesn't depend on
+# a one-off manual step on the box.
+git() { command git -c safe.directory=/opt/homepanel "$@"; }
+
 git fetch origin main --quiet
 
 LOCAL=$(git rev-parse HEAD)
