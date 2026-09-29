@@ -24,7 +24,11 @@ if [ "$LOCAL" = "$REMOTE" ]; then
 fi
 
 echo "$(date -Iseconds) updating $LOCAL -> $REMOTE"
-git merge --ff-only origin/main
+# reset --hard, not merge --ff-only: this checkout is a disposable mirror of
+# origin/main, never a place for local edits, so any local drift (e.g. a
+# manual chmod applied directly on the box) should always lose, not block
+# the update. .env/.venv/.cache aren't tracked, so this never touches them.
+git reset --hard origin/main
 chown -R homepanel:homepanel /opt/homepanel
 su -s /bin/bash homepanel -c "/opt/homepanel/.venv/bin/pip install -q -r requirements.txt"
 systemctl restart homepanel
