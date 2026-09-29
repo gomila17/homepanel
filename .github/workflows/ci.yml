@@ -1,0 +1,24 @@
+name: CI
+
+# Runs on every PR and on every push to main. This is the check that branch
+# protection on main requires before a PR can be merged — see DEPLOYMENT.md:
+# the LXC's auto-update timer deploys whatever lands on main with no gate of
+# its own, so "tested before deploy" happens here, at merge time, not there.
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install -r requirements-dev.txt
+
+      - run: python -m pytest -q

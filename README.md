@@ -41,3 +41,14 @@ copy .env.example .env   # y rellenar credenciales
 ```
 
 Abrir http://127.0.0.1:8000
+
+## Tests
+
+```bash
+.venv\Scripts\pip install -r requirements-dev.txt
+.venv\Scripts\python -m pytest
+```
+
+Corren sin `.env` ni servicios externos: cada integración ya cae a un estado
+"sin configurar" en vez de fallar, así que los tests solo comprueban que ese
+camino no rompe nada. Se ejecutan en CI en cada PR contra `main`.
