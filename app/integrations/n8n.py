@@ -54,7 +54,9 @@ async def get_recent_executions(limit: int = 10) -> list[dict]:
             response = await client.get(url, headers=headers, params=params)
             response.raise_for_status()
             raw_executions = response.json().get("data", [])
-    except httpx.HTTPError:
+    # ValueError also catches json.JSONDecodeError: a 200 with a non-JSON/empty
+    # body (misconfigured credentials, wrong URL...) isn't an httpx.HTTPError.
+    except (httpx.HTTPError, ValueError):
         return []
 
     return [_summarize(execution) for execution in raw_executions]

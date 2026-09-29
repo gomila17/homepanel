@@ -38,7 +38,9 @@ async def get_current() -> dict | None:
             )
             response.raise_for_status()
             data = response.json()
-    except httpx.HTTPError:
+    # ValueError also catches json.JSONDecodeError: a 200 with a non-JSON/empty
+    # body (misconfigured credentials, wrong URL...) isn't an httpx.HTTPError.
+    except (httpx.HTTPError, ValueError):
         return None
 
     return _summarize(data)

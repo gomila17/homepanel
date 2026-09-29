@@ -45,7 +45,9 @@ async def get_summary() -> dict:
             )
             certs_response.raise_for_status()
             certs = certs_response.json()
-    except httpx.HTTPError:
+    # ValueError also catches json.JSONDecodeError: a 200 with a non-JSON/empty
+    # body (misconfigured credentials, wrong URL...) isn't an httpx.HTTPError.
+    except (httpx.HTTPError, ValueError):
         return {}
 
     return _summarize(hosts, certs)
