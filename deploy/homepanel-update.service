@@ -1,0 +1,14 @@
+# One-shot unit triggered by homepanel-update.timer. No User= line: runs as
+# root, which homepanel-update.sh needs for `systemctl restart` and to fix
+# ownership after `git merge` (git commands themselves run as root too,
+# since /opt/homepanel/.git is root-owned from the initial clone).
+
+[Unit]
+Description=Pull latest homepanel and restart if main moved
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/opt/homepanel
+ExecStart=/opt/homepanel/deploy/homepanel-update.sh
