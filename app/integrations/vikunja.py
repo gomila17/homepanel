@@ -55,7 +55,9 @@ async def get_open_tasks(limit: int = 10) -> list[dict]:
                 for task in tasks_response.json():
                     if not task.get("done"):
                         open_tasks.append((task, project.get("title", "")))
-    except httpx.HTTPError:
+    # ValueError also catches json.JSONDecodeError: a 200 with a non-JSON/empty
+    # body (misconfigured credentials, wrong URL...) isn't an httpx.HTTPError.
+    except (httpx.HTTPError, ValueError):
         return []
 
     open_tasks.sort(key=lambda pair: _due_sort_key(pair[0]))

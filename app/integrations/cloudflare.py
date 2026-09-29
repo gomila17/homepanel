@@ -46,7 +46,9 @@ async def get_tunnel_status() -> dict:
                 config_response.json().get("result", {}).get("config", {}).get("ingress")
                 or []
             )
-    except httpx.HTTPError:
+    # ValueError also catches json.JSONDecodeError: a 200 with a non-JSON/empty
+    # body (misconfigured credentials, wrong URL...) isn't an httpx.HTTPError.
+    except (httpx.HTTPError, ValueError):
         return {}
 
     return _summarize(tunnel_data, ingress)

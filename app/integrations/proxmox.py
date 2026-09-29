@@ -50,7 +50,9 @@ async def get_status() -> dict:
                     guests_response.raise_for_status()
                     for guest in guests_response.json().get("data", []):
                         guests.append(_summarize_guest(guest, kind))
-    except httpx.HTTPError:
+    # ValueError also catches json.JSONDecodeError: a 200 with a non-JSON/empty
+    # body (misconfigured credentials, wrong URL...) isn't an httpx.HTTPError.
+    except (httpx.HTTPError, ValueError):
         return {"nodes": [], "guests": []}
 
     return {
@@ -117,7 +119,9 @@ async def get_telemetry() -> dict:
             )
             rrd_response.raise_for_status()
             rrd = rrd_response.json().get("data", [])
-    except httpx.HTTPError:
+    # ValueError also catches json.JSONDecodeError: a 200 with a non-JSON/empty
+    # body (misconfigured credentials, wrong URL...) isn't an httpx.HTTPError.
+    except (httpx.HTTPError, ValueError):
         return {}
 
     return _summarize_telemetry(node_name, status, rrd)
